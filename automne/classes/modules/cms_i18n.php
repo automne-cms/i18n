@@ -32,7 +32,7 @@ class CMS_module_CMS_i18n extends CMS_module
 	const MESSAGE_PAGE_MODELS_MODULE_MANAGEMENT = 4;
 	const MESSAGE_POLYMOD_MODULE = 5;
 	const MESSAGE_POLYMOD_MODULE_LABELS_MANAGEMENT = 6;
-	
+	const MESSAGE_TEMPLATE_EXPLANATION = 62;
 	
 	/**
 	  * Return the module code for the specified treatment mode, visualization mode and object.
@@ -82,6 +82,14 @@ class CMS_module_CMS_i18n extends CMS_module
 					return $modulesCode;
 				}
 			break;
+			case MODULE_TREATMENT_ROWS_EDITION_LABELS :
+				$modulesCode[MOD_CMS_I18N_CODENAME] = $treatmentParameters["language"]->getMessage(self::MESSAGE_TEMPLATE_EXPLANATION, false, MOD_CMS_I18N_CODENAME);
+				return $modulesCode;
+			break;
+			case MODULE_TREATMENT_TEMPLATES_EDITION_LABELS :
+				$modulesCode[MOD_CMS_I18N_CODENAME] = $treatmentParameters["language"]->getMessage(self::MESSAGE_TEMPLATE_EXPLANATION, false, MOD_CMS_I18N_CODENAME);
+				return $modulesCode;
+			break;
 		}
 		return $modulesCode;
 	}
@@ -119,7 +127,7 @@ class CMS_module_CMS_i18n extends CMS_module
 		if (!isset($classes)) {
 			$classes = array(
 				'cms_i18n' 		=> PATH_MODULES_FS.'/'.MOD_CMS_I18N_CODENAME.'/i18n.php',
-				'cms_po'		=> PATH_MODULES_FS.'/'.MOD_CMS_I18N_CODENAME.'/files/po.php',
+				'cms_po'		=> PATH_MODULES_FS.'/'.MOD_CMS_I18N_CODENAME.'/po.php',
 				'cms_po_entry'	=> PATH_MODULES_FS.'/'.MOD_CMS_I18N_CODENAME.'/poentry.php',
 			);
 		}

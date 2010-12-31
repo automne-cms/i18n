@@ -756,8 +756,6 @@ $jscontent = <<<END
 					},{
 						text:	'{$cms_language->getJSMessage(MESSAGE_PAGE_HTML_FORMAT, false, MOD_CMS_I18N_CODENAME)}',
 						handler:	function(button) {
-							var cell = resultsPanel.getSelectionModel().getSelectedCell();
-							var record = resultsPanel.getStore().getAt(cell[0]);
 							editItem(0, 'html', button);
 						},
 						scope:		resultsPanel
