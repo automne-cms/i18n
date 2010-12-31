@@ -118,7 +118,9 @@ class CMS_module_CMS_i18n extends CMS_module
 		static $classes;
 		if (!isset($classes)) {
 			$classes = array(
-				'cms_i18n' => PATH_MODULES_FS.'/'.MOD_CMS_I18N_CODENAME.'/i18n.php',
+				'cms_i18n' 		=> PATH_MODULES_FS.'/'.MOD_CMS_I18N_CODENAME.'/i18n.php',
+				'cms_po'		=> PATH_MODULES_FS.'/'.MOD_CMS_I18N_CODENAME.'/files/po.php',
+				'cms_po_entry'	=> PATH_MODULES_FS.'/'.MOD_CMS_I18N_CODENAME.'/poentry.php',
 			);
 		}
 		$file = '';
