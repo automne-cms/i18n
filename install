@@ -1,0 +1,19 @@
+# files to create / update
+>	/automne/classes/modules/cms_i18n.php
+>	/automne/classes/modules/cms_i18n/CHANGELOG
+>	/automne/classes/modules/cms_i18n/VERSION
+>	/automne/classes/modules/cms_i18n/i18n.php
+>	/automne/admin/modules/cms_i18n/editorstyles.xml
+>	/automne/admin/modules/cms_i18n/search.php
+>	/automne/admin/modules/cms_i18n/index.php
+>	/automne/admin/modules/cms_i18n/items-controler.php
+>	/automne/admin/modules/cms_i18n/items.php
+>	/automne/admin/modules/cms_i18n/item.php
+>	/automne/admin/modules/cms_i18n/export.php
+>	/automne/sql/messages/fr/cms_i18n.sql
+>	/automne/sql/messages/en/cms_i18n.sql
+>	/automne/sql/mod_cms_i18n.sql
+#execute installation/update DB script
+x	/automne/sql/messages/fr/cms_i18n.sql
+x	/automne/sql/messages/en/cms_i18n.sql
+x	/install.php
