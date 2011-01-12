@@ -65,10 +65,16 @@ class CMS_i18n extends CMS_grandFather
 		return $this->_page;
 	}
 	
-	
-	function getTranslation($code, $language = '', $parameters = '') {
-		//return 'i18n : '.print_r(func_get_args(), true);
-		
+	/**
+	  * Return a translated string for a given key
+	  * 
+	  * @param string $key the string key to get translation
+	  * @param string $language The language code to get translation to
+	  * @param string $parameters The parameters to replace in translation. Each parameter must be separated by ::
+	  * @return string : the stanslated string
+	  * @access public
+	  */
+	function getTranslation($key, $language = '', $parameters = '') {
 		static $messages;
 		global $cms_language;
 		//get current language if none given
@@ -99,7 +105,7 @@ class CMS_i18n extends CMS_grandFather
 		if (!$language) {
 			return false;
 		}
-		if (!isset($messages[$code][$language])) {
+		if (!isset($messages[$key][$language])) {
 			$q = new CMS_query("
 				SELECT 
 					msgref.message_mes as msg
@@ -109,28 +115,28 @@ class CMS_i18n extends CMS_grandFather
 					keyref.module_mes = 'cms_i18n_vars'
 					and msgref.module_mes = 'cms_i18n_vars'
 					and keyref.module_mes = msgref.module_mes 
-					and keyref.message_mes = '".io::sanitizeSQLString($code)."' 
+					and keyref.message_mes = '".io::sanitizeSQLString($key)."' 
 					and keyref.id_mes = msgref.id_mes 
 					and msgref.language_mes = '".io::sanitizeSQLString($language)."'
 			");
 			if ($q->getNumRows() == 1) {
-				$messages[$code][$language] = $q->getValue('msg');
+				$messages[$key][$language] = $q->getValue('msg');
 			} else {
-				$messages[$code][$language] = false;
+				$messages[$key][$language] = false;
 			}
 		}
-		if ($messages[$code][$language] === false) {
-			return false;
+		if ($messages[$key][$language] === false) {
+			return 'Unknown key: '.$key;
 		}
 		if ($parameters) {
 			$parameters = explode('::', $parameters);
-			$replacement = SensitiveIO::arraySprintf($messages[$code][$language], $parameters);
+			$replacement = SensitiveIO::arraySprintf($messages[$key][$language], $parameters);
 			if (!$replacement) {
-				return $messages[$code][$language];
+				return $messages[$key][$language];
 			} else {
 				return $replacement;
 			}
 		}
-		return $messages[$code][$language];
+		return $messages[$key][$language];
 	}
 }
