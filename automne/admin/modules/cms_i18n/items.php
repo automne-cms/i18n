@@ -820,7 +820,7 @@ $jscontent = <<<END
 			
 			// get column name
 			var fieldName = sm.grid.getColumnModel().getDataIndex(selection.cell[1]);
-			if (fieldName != 'key') {
+			if (fieldName != 'key' && fieldName != 'id') {
 				//update translate menu
 				var menu = Ext.getCmp('{$winId}translateMenu');
 				//clear menu content

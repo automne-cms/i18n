@@ -1,1 +1,5 @@
+v0.11
+[BUG] : Correct a bug on Google translation when id column is selected
+[BUG] : Correct an incorrect label
+
 v0.1 : Initial Import, based on Automne 4.1.0a3
