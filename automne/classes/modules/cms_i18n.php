@@ -66,7 +66,7 @@ class CMS_module_CMS_i18n extends CMS_module
 					// create specific cms_form toolbar
 					$modulesCode["ToolbarSets"][] = 
 							"FCKConfig.ToolbarSets['".MOD_CMS_I18N_CODENAME."'] = [
-								['Source','-','Preview'],
+								['Source','-','FitWindow','ShowBlocks','Preview'],
 								['Cut','Copy','Paste','PasteText','PasteWord','-','Print'],
 								['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
 								['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
