@@ -46,16 +46,6 @@ class CMS_i18n extends CMS_grandFather
 		}
 		return CMS_i18n::$_instance;
 	}
-	function setContext($pageID = '', $languageCode = '') {
-		if (io::isPositiveInteger($pageID)) {
-			$this->_pageId = $pageID;
-			return true;
-		}
-		if ($languageCode) {
-			$this->_language = $languageCode;
-		}
-		return false;
-	}
 	function getPage() {
 		if (!is_object($this->_page) && io::isPositiveInteger($this->_pageId)) {
 			$this->_page = CMS_tree::getPageByID($this->_pageId);
@@ -63,6 +53,39 @@ class CMS_i18n extends CMS_grandFather
 			return false;
 		}
 		return $this->_page;
+	}
+	function setPageId($pageID) {
+		$this->_pageId = $pageID;
+	}
+	function getPageId($pageID) {
+		return $this->_pageId;
+	}
+	function setLanguageCode($languageCode) {
+		$this->_language = $languageCode;
+	}
+	function getLanguageCode($languageCode) {
+		return $this->_language;
+	}
+	
+	/**
+	  * Set current CMS_i18n instance context
+	  * 
+	  * @param integer $pageID the id of the current page
+	  * @param string $languageCode The language code to get translation to
+	  * @return boolean
+	  * @access public
+	  * @static
+	  */
+	static function setContext($pageID = '', $languageCode = '') {
+		$instance = CMS_i18n::getInstance();
+		if (io::isPositiveInteger($pageID)) {
+			$instance->setPageId($pageID);
+			return true;
+		}
+		if ($languageCode) {
+			$instance->setLanguageCode($languageCode);
+		}
+		return false;
 	}
 	
 	/**
@@ -73,32 +96,31 @@ class CMS_i18n extends CMS_grandFather
 	  * @param string $parameters The parameters to replace in translation. Each parameter must be separated by ::
 	  * @return string : the stanslated string
 	  * @access public
+	  * @static
 	  */
-	function getTranslation($key, $language = '', $parameters = '') {
+	static function getTranslation($key, $language = '', $parameters = '') {
 		static $messages;
 		global $cms_language;
 		//get current language if none given
 		if (!$language) {
-			if ($this->_language) {
-				$language = $this->_language;
+			$instance = CMS_i18n::getInstance();
+			if ($instance->getLanguageCode()) {
+				$language = $instance->getLanguageCode();
 			} else {
-				//check page instance
-				if (!is_object($this->_page) && io::isPositiveInteger($this->_pageId)) {
-					$this->_page = CMS_tree::getPageByID($this->_pageId);
-				} elseif(!is_object($this->_page) && !is_object($cms_language)) {
-					return false;
-				}
-				//get anguage from current page
-				if (is_object($this->_page) && !$this->_page->hasError()) {
-					$language = $this->_page->getLanguage(true);
-				}
-				//get language from cms_language if exists
-				if ((!is_object($this->_page) || $this->_page->hasError()) && is_object($cms_language)) {
+				if (is_object($cms_language)) {
 					$language = $cms_language->getCode();
+				} else {
+					//try to get language from page instance
+					if (is_object($instance->getPage())) {
+						$page = $instance->getPage();
+						//get language from current page
+						if (is_object($page) && !$page->hasError()) {
+							$language = $page->getLanguage(true);
+						}
+					}
 				}
-				//set current language
 				if ($language) {
-					$this->_language = $language;
+					$instance->setLanguageCode($language);
 				}
 			}
 		}

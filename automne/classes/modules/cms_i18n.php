@@ -53,9 +53,8 @@ class CMS_module_CMS_i18n extends CMS_module
 				$modulesCode[MOD_CMS_I18N_CODENAME] = '';
 				//Append usefull class in top of HTML code and top and bottom contents
 				$modulesCode[MOD_CMS_I18N_CODENAME] = '<?php '."\n".
-				' /*cms_i18n generated content*/'."\n".
-				'	$cms_i18n = CMS_i18n::getInstance();'."\n".
-				'	$cms_i18n->setContext(\''.$treatedObject->getID().'\', \''.$treatedObject->getLanguage(true).'\');'."\n".
+				' /*set cms_i18n context*/'."\n".
+				'	CMS_i18n::setContext(\''.$treatedObject->getID().'\', \''.$treatedObject->getLanguage(true).'\');'."\n".
 				'	?>';
 			break;
 			case MODULE_TREATMENT_EDITOR_CODE :
@@ -103,14 +102,14 @@ class CMS_module_CMS_i18n extends CMS_module
 	function getModuleReplacements($parameterVarName) {
 		$replace = array();
 		//replace '{i18n:language:msgid|parameter}' value by corresponding call
-		$replace["#^\{i18n\:([^:]*?(::)?[^:]*?)\:([^:]*?(::)?[^:]*?)\|(([^:]*?(::)?[^:]*?)*)\}$#U"] = '$cms_i18n->getTranslation("\3", "\1", "\5")';
+		$replace["#^\{i18n\:([^:]*?(::)?[^:]*?)\:([^:]*?(::)?[^:]*?)\|(([^:]*?(::)?[^:]*?)*)\}$#U"] = 'CMS_i18n::getTranslation("\3", "\1", "\5")';
 		//replace '{i18n:language:msgid}' value by corresponding call
-		$replace["#^\{i18n\:([^:]*?(::)?[^:]*?)\:([^:]*?(::)?[^:]*?)\}$#U"] = '$cms_i18n->getTranslation("\3", "\1")';
+		$replace["#^\{i18n\:([^:]*?(::)?[^:]*?)\:([^:]*?(::)?[^:]*?)\}$#U"] = 'CMS_i18n::getTranslation("\3", "\1")';
 		
 		//replace '{i18n:msgid|parameter}' value by corresponding call
-		$replace["#^\{i18n\:([^:]*?(::)?[^:]*?)\|(([^:]*?(::)?[^:]*?)*)\}$#U"] = '$cms_i18n->getTranslation("\1", "", "\3")';
+		$replace["#^\{i18n\:([^:]*?(::)?[^:]*?)\|(([^:]*?(::)?[^:]*?)*)\}$#U"] = 'CMS_i18n::getTranslation("\1", "", "\3")';
 		//replace '{i18n:msgid}' value by corresponding call
-		$replace["#^\{i18n\:([^:]*?(::)?[^:]*?)\}$#U"] = '$cms_i18n->getTranslation("\1")';
+		$replace["#^\{i18n\:([^:]*?(::)?[^:]*?)\}$#U"] = 'CMS_i18n::getTranslation("\1")';
 		
 		return $replace;
 	}

@@ -1,3 +1,6 @@
+v0.13
+[BUG] : Correct a bug when inserting rows using this module in page edition
+
 v0.12
 [REFACTOR] : Add some options to wysiwyg used for HTML edition
 
