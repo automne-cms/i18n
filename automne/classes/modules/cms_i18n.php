@@ -99,7 +99,7 @@ class CMS_module_CMS_i18n extends CMS_module
 	  * @return array of replacements values (pattern to replace => replacement)
 	  * @access public
 	  */
-	function getModuleReplacements($parameterVarName) {
+	function getModuleReplacements() {
 		$replace = array();
 		//replace '{i18n:language:msgid|parameter}' value by corresponding call
 		$replace["#^\{i18n\:([^:]*?(::)?[^:]*?)\:([^:]*?(::)?[^:]*?)\|(([^:]*?(::)?[^:]*?)*)\}$#U"] = 'CMS_i18n::getTranslation("\3", "\1", "\5")';

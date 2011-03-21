@@ -80,12 +80,11 @@ class CMS_i18n extends CMS_grandFather
 		$instance = CMS_i18n::getInstance();
 		if (io::isPositiveInteger($pageID)) {
 			$instance->setPageId($pageID);
-			return true;
 		}
 		if ($languageCode) {
 			$instance->setLanguageCode($languageCode);
 		}
-		return false;
+		return true;
 	}
 	
 	/**
