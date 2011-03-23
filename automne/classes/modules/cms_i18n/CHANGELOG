@@ -1,3 +1,6 @@
+v0.15
+[BUG] : Error if language code is missing from vars (default language do not work)
+
 v0.14
 [BUG] : Correct a bug in getModuleReplacements
 [BUG] : Correct a bug in setContext

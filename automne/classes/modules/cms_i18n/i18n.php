@@ -63,7 +63,7 @@ class CMS_i18n extends CMS_grandFather
 	function setLanguageCode($languageCode) {
 		$this->_language = $languageCode;
 	}
-	function getLanguageCode($languageCode) {
+	function getLanguageCode() {
 		return $this->_language;
 	}
 	
