@@ -174,6 +174,20 @@ $jscontent = <<<END
 					if (!action.result || action.result.success == false) {
 						Automne.message.show('{$cms_language->getJSMessage(MESSAGE_PAGE_SAVE_ERROR, false, MOD_POLYMOD_CODENAME)}', '', window);
 					} else {
+						//extract updated json datas from response
+						var jsonResponse = {};
+						if (action.response.responseXML && action.response.responseXML.getElementsByTagName('jsoncontent').length) {
+							try{
+								jsonResponse = Ext.decode(action.response.responseXML.getElementsByTagName('jsoncontent').item(0).firstChild.nodeValue);
+							} catch(e) {
+								jsonResponse = {};
+								pr(e, 'error');
+								Automne.server.failureResponse(action.response, action.options, e, 'json');
+							}
+						}
+						if (jsonResponse.id) {
+							window.itemId = jsonResponse.id;
+						}
 						window.saved = true;
 					}
 				},

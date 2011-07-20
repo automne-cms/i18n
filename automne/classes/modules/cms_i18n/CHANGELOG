@@ -1,3 +1,6 @@
+v0.16
+[BUG] : Correct bug number: 2108 (see http://www.automne-cms.org/bug/)
+
 v0.15
 [BUG] : Error if language code is missing from vars (default language do not work)
 

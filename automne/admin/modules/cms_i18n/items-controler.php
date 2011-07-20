@@ -135,9 +135,9 @@ switch ($action) {
 					$view->show();
 				}
 			}
-			
-			if (CMS_language::createMessage($codename, $messages)) {
-				$content = array('success' => true);
+			$msgId = CMS_language::createMessage($codename, $messages);
+			if (io::isPositiveInteger($msgId)) {
+				$content = array('success' => true, 'id' => $msgId);
 				$cms_message = $cms_language->getMessage(MESSAGE_ACTION_OPERATION_DONE);
 			} else {
 				$jscontent = "
