@@ -160,4 +160,153 @@ class CMS_i18n extends CMS_grandFather
 		}
 		return $messages[$key][$language];
 	}
+	
+	/**
+	  * Does the given key translation exists
+	  * Beware : an empty translation is a translation (and will return true)
+	  * 
+	  * @param string $key the string key to check
+	  * @param string $language The specific language code to check. If false, method will return true if any language exists for the key. (default false)
+	  * @return boolean
+	  * @access public
+	  * @static
+	  */
+	static function keyExists($key, $language = false) {
+		$sql = "
+			SELECT 
+				msgref.message_mes as msg
+			FROM 
+				messages as keyref , messages as msgref 
+			WHERE 
+				keyref.module_mes = 'cms_i18n_vars'
+				and msgref.module_mes = 'cms_i18n_vars'
+				and keyref.module_mes = msgref.module_mes 
+				and keyref.message_mes = '".io::sanitizeSQLString($key)."' 
+				and keyref.id_mes = msgref.id_mes ";
+			if ($language) {
+				$sql .= " and msgref.language_mes = '".io::sanitizeSQLString($language)."'";
+			}
+		$q = new CMS_query($sql);
+		return $q->getNumRows() ? true : false;
+	}
+	
+	/**
+	  * Create a translation for a given key
+	  * 
+	  * @param string $key the string key to create
+	  * @param mixed $value the translation string(s) to create. If a language is given, just a string is needed. If no language given, pass an array of strings. Format array(languageCode => string)
+	  * @param string $language The language code to create (default false)
+	  * @return boolean
+	  * @access public
+	  * @static
+	  */
+	static function create($key, $value, $language = false) {
+		if (CMS_i18n::keyExists($key, $language)) {
+			CMS_grandFather::raiseError('Key '.$key.' already exists'.($language ? ' for language '.$language : ''));
+			return false;
+		}
+		if (is_array($value) && !$language) {
+			$value['key'] = $key;
+			return CMS_language::createMessage('cms_i18n_vars', $value);
+		} elseif (is_array($value) && $language && isset($value[$language])) {
+			$value = array(
+				'key'		=> $key,
+				$language 	=> $value[$language]
+			);
+			return CMS_language::createMessage('cms_i18n_vars', $value);
+		} elseif (!is_array($value) && $language) {
+			$value = array(
+				'key'		=> $key,
+				$language 	=> $value
+			);
+			return CMS_language::createMessage('cms_i18n_vars', $value);
+		}
+		CMS_grandFather::raiseError('Incorrect value/language parameters given');
+		return false;
+	}
+	
+	/**
+	  * Update a translation for a given key
+	  * 
+	  * @param string $key the string key to update
+	  * @param mixed $value the translation string(s) to update. If a language is given, just a string is needed. If no language given, pass an array of strings. Format array(languageCode => string)
+	  * @param string $language The language code to update (default false)
+	  * @return boolean
+	  * @access public
+	  * @static
+	  */
+	static function update($key, $value, $language = false) {
+		if (!CMS_i18n::keyExists($key, $language)) {
+			CMS_grandFather::raiseError('Key '.$key.' does not exists'.($language ? ' for language '.$language : ''));
+			return false;
+		}
+		$id = CMS_i18n::getIdForKey($key);
+		if (!io::isPositiveInteger($id)) {
+			CMS_grandFather::raiseError('No messages Id found for key '.$key);
+			return false;
+		}
+		if (is_array($value) && !$language) {
+			$value['key'] = $key;
+			return CMS_language::updateMessage('cms_i18n_vars', $id, $value);
+		} elseif (is_array($value) && $language && isset($value[$language])) {
+			$value = array(
+				'key'		=> $key,
+				$language 	=> $value[$language]
+			);
+			return CMS_language::updateMessage('cms_i18n_vars', $id, $value);
+		} elseif (!is_array($value) && $language) {
+			$value = array(
+				'key'		=> $key,
+				$language 	=> $value
+			);
+			return CMS_language::updateMessage('cms_i18n_vars', $id, $value);
+		}
+		CMS_grandFather::raiseError('Incorrect value/language parameters given');
+		return false;
+	}
+	
+	/**
+	  * Delete a given key translation
+	  * 
+	  * @param string $key the string key to delete
+	  * @return boolean
+	  * @access public
+	  * @static
+	  */
+	static function delete($key) {
+		if (!CMS_i18n::keyExists($key)) {
+			CMS_grandFather::raiseError('Key '.$key.' does not exists');
+			return false;
+		}
+		$id = CMS_i18n::getIdForKey($key);
+		if (!io::isPositiveInteger($id)) {
+			CMS_grandFather::raiseError('No messages Id found for key '.$key);
+			return false;
+		}
+		return CMS_language::deleteMessage('cms_i18n_vars', $id);
+	}
+	
+	/**
+	  * Get messages Ids for a given translation key
+	  * 
+	  * @param string $key the string key to get id for
+	  * @return integer
+	  * @access public
+	  * @static
+	  */
+	static function getIdForKey($key) {
+		$sql = "
+			SELECT 
+				id_mes
+			FROM 
+				messages
+			WHERE 
+				module_mes = 'cms_i18n_vars'
+				and message_mes = '".io::sanitizeSQLString($key)."'";
+		$q = new CMS_query($sql);
+		if (!$q->getNumRows()) {
+			return false;
+		}
+		return $q->getValue('id_mes');
+	}
 }

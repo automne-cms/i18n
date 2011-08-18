@@ -1,3 +1,6 @@
+v0.17
+[FEATURE] : Add methods to create/update/delete translations using keys instead of ids
+
 v0.16
 [BUG] : Correct bug number: 2108 (see http://www.automne-cms.org/bug/)
 
