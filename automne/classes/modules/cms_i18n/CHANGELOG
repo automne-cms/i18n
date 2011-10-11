@@ -1,3 +1,6 @@
+v0.18
+[BUG] : Correct bug 2474
+
 v0.17
 [FEATURE] : Add methods to create/update/delete translations using keys instead of ids
 

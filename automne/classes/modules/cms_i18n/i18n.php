@@ -92,7 +92,7 @@ class CMS_i18n extends CMS_grandFather
 	  * 
 	  * @param string $key the string key to get translation
 	  * @param string $language The language code to get translation to
-	  * @param string $parameters The parameters to replace in translation. Each parameter must be separated by ::
+	  * @param mixed $parameters The parameters to replace in translation. Array or string (in this case, each parameter must be separated by :: )
 	  * @return string : the stanslated string
 	  * @access public
 	  * @static
@@ -139,7 +139,8 @@ class CMS_i18n extends CMS_grandFather
 					and keyref.message_mes = '".io::sanitizeSQLString($key)."' 
 					and keyref.id_mes = msgref.id_mes 
 					and msgref.language_mes = '".io::sanitizeSQLString($language)."'
-			");
+					GROUP BY 'msg'
+			"); //group by for bug id 2474
 			if ($q->getNumRows() == 1) {
 				$messages[$key][$language] = $q->getValue('msg');
 			} else {
@@ -150,8 +151,11 @@ class CMS_i18n extends CMS_grandFather
 			return 'Unknown key: '.$key;
 		}
 		if ($parameters) {
-			$parameters = explode('::', $parameters);
-			$replacement = SensitiveIO::arraySprintf($messages[$key][$language], $parameters);
+			$parameters = !is_array($parameters) ? explode('::', $parameters) : $parameters;
+			// Replace SensitiveIO::arraySprintf with vsprintf : use native PHP function [todo]
+			// Allows to use %1$s, %2$s, ... , %n$s format.
+			//$replacement = SensitiveIO::arraySprintf($messages[$key][$language], $parameters);
+			$replacement = vsprintf($messages[$key][$language], $parameters);
 			if (!$replacement) {
 				return $messages[$key][$language];
 			} else {
@@ -160,6 +164,7 @@ class CMS_i18n extends CMS_grandFather
 		}
 		return $messages[$key][$language];
 	}
+	
 	
 	/**
 	  * Does the given key translation exists
