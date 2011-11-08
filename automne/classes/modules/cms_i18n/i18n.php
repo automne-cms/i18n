@@ -139,6 +139,7 @@ class CMS_i18n extends CMS_grandFather
 					and keyref.message_mes = '".io::sanitizeSQLString($key)."' 
 					and keyref.id_mes = msgref.id_mes 
 					and msgref.language_mes = '".io::sanitizeSQLString($language)."'
+					and msgref.message_mes != ''
 					GROUP BY 'msg'
 			"); //group by for bug id 2474
 			if ($q->getNumRows() == 1) {
@@ -148,13 +149,18 @@ class CMS_i18n extends CMS_grandFather
 			}
 		}
 		if ($messages[$key][$language] === false) {
-			return 'Unknown key: '.$key;
+			if (SYSTEM_DEBUG) {
+				return !CMS_i18n::keyExists($key) ? '[Unknown key: '.$key.']' : '[No &quot;'.$language.'&quot; message for key: '.$key.']';
+			} else {
+				if ($language != APPLICATION_DEFAULT_LANGUAGE) {
+					return CMS_i18n::getTranslation($key, APPLICATION_DEFAULT_LANGUAGE, $parameters);
+				}
+				return '';
+			}
 		}
 		if ($parameters) {
 			$parameters = !is_array($parameters) ? explode('::', $parameters) : $parameters;
-			// Replace SensitiveIO::arraySprintf with vsprintf : use native PHP function [todo]
 			// Allows to use %1$s, %2$s, ... , %n$s format.
-			//$replacement = SensitiveIO::arraySprintf($messages[$key][$language], $parameters);
 			$replacement = vsprintf($messages[$key][$language], $parameters);
 			if (!$replacement) {
 				return $messages[$key][$language];
@@ -164,7 +170,6 @@ class CMS_i18n extends CMS_grandFather
 		}
 		return $messages[$key][$language];
 	}
-	
 	
 	/**
 	  * Does the given key translation exists

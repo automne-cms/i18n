@@ -1,3 +1,6 @@
+v0.19
+[REFACTOR] : If a message is missing in queried language, send a message if SYSTEM_DEBUG is active or send default language instead.
+
 v0.18
 [BUG] : Correct bug 2474
 
