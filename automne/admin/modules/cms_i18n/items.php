@@ -633,11 +633,11 @@ $jscontent = <<<END
 						if (window.saved) {
 							moduleObjectWindow.search('last');
 						}
-						Ext.getCmp('{$winId}createItem').enable();
 					} else {
 						//reload search
 						moduleObjectWindow.search('current');
 					}
+					Ext.getCmp('{$winId}createItem').enable();
 					//delete window from list
 					delete objectsWindows[window.id];
 				}}

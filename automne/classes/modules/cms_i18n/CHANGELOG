@@ -1,3 +1,6 @@
+v0.20
+[BUG] : "New" button stay disabled after closing an edition window
+
 v0.19
 [REFACTOR] : If a message is missing in queried language, send a message if SYSTEM_DEBUG is active or send default language instead.
 
