@@ -1,3 +1,6 @@
+v0.21
+[BUG] : key labels should have # and _ allowed.
+
 v0.20
 [BUG] : "New" button stay disabled after closing an edition window
 

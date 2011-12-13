@@ -98,7 +98,7 @@ if ($codename == 'cms_i18n_vars') {
 			name:			\'messages[key]\',
 			value:			\''.io::sanitizeJSString((isset($messages['key']) ? $messages['key'] : '')).'\',
 			vtype:			\'i18n_key\',
-			vtypeText:		\'{$cms_language->getJSMessage(MESSAGE_PAGE_KEY_FORMAT_DESC, false, MOD_CMS_I18N_CODENAME)}\'
+			vtypeText:		\''.$cms_language->getJSMessage(MESSAGE_PAGE_KEY_FORMAT_DESC, false, MOD_CMS_I18N_CODENAME).'\'
 		},';
 }
 if ($format == 'html') {
@@ -155,10 +155,10 @@ $jscontent = <<<END
 	//vtype codename
 	Ext.apply(Ext.form.VTypes, {
 	    i18n_key:  function(v) {
-	        return /^[a-zA-Z0-9-]*$/.test(v);
+	        return /^[#a-zA-Z0-9_-]*$/.test(v);
 	    },
 	    i18n_keyText: '{$cms_language->getJSMessage(MESSAGE_PAGE_KEY_FORMAT_DESC, false, MOD_CMS_I18N_CODENAME)}',
-	    i18n_keyMask: /[a-zA-Z0-9-]/i
+	    i18n_keyMask: /[#a-zA-Z0-9_-]/i
 	});
 	
 	var submitItem = function (action) {
