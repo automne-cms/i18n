@@ -85,6 +85,8 @@ define("MESSAGE_PAGE_IMPORT_FILE", 46);
 define("MESSAGE_PAGE_IMPORT_WARNING", 47);
 define("MESSAGE_PAGE_SELECT_IMPORT_FILE", 48);
 define("MESSAGE_PAGE_IMPORT_IN_PROGRESS", 49);
+define("MESSAGE_PAGE_VIEW_KEYS", 63);
+define("MESSAGE_PAGE_VIEW_KEYS_DESC", 64);
 
 //load interface instance
 $view = CMS_view::getInstance();
@@ -199,7 +201,11 @@ $searchPanel .= "{
 	fieldLabel: '{$cms_language->getJSMessage(MESSAGE_PAGE_OPTIONS, false, MOD_CMS_I18N_CODENAME)}',
 	columns: 	1,
 	items: [
-		{boxLabel: '{$cms_language->getJSMessage(MESSAGE_PAGE_MISSING_MESSAGES_ONLY, false, MOD_CMS_I18N_CODENAME)}', inputValue:'1', name: 'options[empty]', listeners: {'check':moduleObjectWindow.search}}
+		{boxLabel: '{$cms_language->getJSMessage(MESSAGE_PAGE_MISSING_MESSAGES_ONLY, false, MOD_CMS_I18N_CODENAME)}', inputValue:'1', name: 'options[empty]', listeners: {'check':moduleObjectWindow.search}}";
+		if ($codename == 'cms_i18n_vars') {
+			$searchPanel .= ",{boxLabel: '<span class=\"atm-help\" ext:qtip=\"{$cms_language->getJSMessage(MESSAGE_PAGE_VIEW_KEYS_DESC, false, MOD_CMS_I18N_CODENAME)}\">{$cms_language->getJSMessage(MESSAGE_PAGE_VIEW_KEYS, false, MOD_CMS_I18N_CODENAME)}</span>', ".(CMS_session::getSessionVar('i18n-show-keys') ? 'checked:true, ' : '')."inputValue:'1', name: 'options[view-keys]', listeners: {'check':moduleObjectWindow.search}}";
+		}
+$searchPanel .= "
 	]
 },";
 

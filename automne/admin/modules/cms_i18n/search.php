@@ -64,6 +64,14 @@ if (io::isPositiveInteger($keywords)) {
 	$keywords = '';
 }
 
+//show/hide keys in page navigation ?
+if (!isset($options['view-keys']) || !$options['view-keys']) {
+	CMS_session::setSessionVar('i18n-show-keys', false);
+} else {
+	CMS_session::setSessionVar('i18n-show-keys', true);
+	unset($options['view-keys']);
+}
+
 //get messages
 $resultCount = 0;
 $messages = CMS_languagesCatalog::searchMessages($codename, $keywords, $languages, $options, $dir, $start, $limit, $resultCount);

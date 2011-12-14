@@ -126,6 +126,16 @@ class CMS_i18n extends CMS_grandFather
 		if (!$language) {
 			return false;
 		}
+		//does user want to show/hide used keys ?
+		if (io::request('i18n-hide-keys')) {
+			CMS_session::setSessionVar('i18n-show-keys', false);
+		}
+		if (io::request('i18n-show-keys') || CMS_session::getSessionVar('i18n-show-keys')) {
+			if (!CMS_session::getSessionVar('i18n-show-keys')) {
+				CMS_session::setSessionVar('i18n-show-keys', true);
+			}
+			return '['.$language.': '.$key.']';
+		}
 		if (!isset($messages[$key][$language])) {
 			$q = new CMS_query("
 				SELECT 

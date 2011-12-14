@@ -1,3 +1,6 @@
+v0.22
+[FEATURE] : Add an option to view used keys during frontend navigation
+
 v0.21
 [BUG] : key labels should have # and _ allowed.
 
