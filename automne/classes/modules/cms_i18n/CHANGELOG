@@ -1,3 +1,6 @@
+v0.23
+[BUG] : Correct a permission bug if key is not set (bug 2864)
+
 v0.22
 [FEATURE] : Add an option to view used keys during frontend navigation
 

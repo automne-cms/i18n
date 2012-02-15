@@ -100,6 +100,10 @@ class CMS_i18n extends CMS_grandFather
 	static function getTranslation($key, $language = '', $parameters = '') {
 		static $messages;
 		global $cms_language;
+		if (!$key) {
+			CMS_grandFather::raiseError('Key must be set');
+			return false;
+		}
 		//get current language if none given
 		if (!$language) {
 			$instance = CMS_i18n::getInstance();
