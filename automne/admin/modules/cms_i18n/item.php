@@ -105,18 +105,23 @@ if ($format == 'html') {
 	foreach ($languages as $language) {
 		$itemFields .= '{
 			fieldLabel:		\''.io::sanitizeJSString($language->getLabel()).'\',
-			xtype:			\'fckeditor\',
+			xtype:			\'ckeditor\',
 			name:			\'messages['.$language->getCode().']\',
 			value:			\''.io::sanitizeJSString((isset($messages[$language->getCode()]) ? $messages[$language->getCode()] : '')).'\',
 			height:			300,
 			editor:			{
-								ToolbarSet: 		\''.MOD_CMS_I18N_CODENAME.'\',
-								DefaultLanguage:	\''.$cms_language->getCode().'\',
-								Config:{
-									EditorAreaStyles:	\''.PATH_ADMIN_WR.'/css/main.css\', 
-									BodyClass: 			\'atm-help-panel\',
-									StylesXmlPath: 		\''.PATH_ADMIN_MODULES_WR.'/'.MOD_CMS_I18N_CODENAME.'/editorstyles.xml\'
-								}
+								scayt_sLang:		\''.$language->getCode().'\',
+								language:			\''.$cms_language->getCode().'\',
+								customConfig:		\''.PATH_MAIN_WR.'/ckeditor/config.php\',
+								atmToolbar:			\''.MOD_CMS_I18N_CODENAME.'\',
+								contentsCss:		\''.PATH_ADMIN_WR.'/css/main.css\',
+								bodyClass:			\'atm-help-panel\',
+								stylesSet:			[
+														{ name: \'Red text\', element: \'span\', attributes: { \'class\': \'keyword\'} },
+														{ name : \'Green text\', element : \'span\', attributes: { \'class\': \'vertclair\'} },
+														{ name : \'Shifted block\', element : \'div\', attributes: { \'class\': \'retrait\'} },
+														{ name : \'Code block\', element : \'div\', attributes: { \'class\': \'code\'} }
+													]
 							}
 			},';
 	}
