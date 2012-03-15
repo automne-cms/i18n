@@ -58,24 +58,9 @@ class CMS_module_CMS_i18n extends CMS_module
 				'	?>';
 			break;
 			case MODULE_TREATMENT_EDITOR_CODE :
-				if ($treatmentParameters["editor"] == "fckeditor") {
-					$languages = implode(',',array_keys(CMS_languagesCatalog::getAllLanguages(MOD_CMS_I18N_CODENAME)));
-					//This is an exception of the method, because here we return an array, see admin/fckeditor/fckconfig.php for the detail
-					
-					// create specific cms_form toolbar
-					$modulesCode["ToolbarSets"][] = 
-							"FCKConfig.ToolbarSets['".MOD_CMS_I18N_CODENAME."'] = [
-								['Source','-','FitWindow','ShowBlocks','Preview'],
-								['Cut','Copy','Paste','PasteText','PasteWord','-','Print'],
-								['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
-								['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
-								['OrderedList','UnorderedList','-','Outdent','Indent'],
-								['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
-								['Link','Unlink','Anchor'],
-								['Table','Rule','SpecialChar'],
-								['Style','FontFormat','FontSize'],
-								['TextColor','BGColor']
-							];";
+				if ($treatmentParameters["editor"] == "ckeditor") {
+					// create specific cms_i18n toolbar
+					$modulesCode["ToolbarSets"][] = 'toolbarSets["'.MOD_CMS_I18N_CODENAME.'"] = [[\'Source\'],[\'Maximize\',\'ShowBlocks\',\'Preview\'],[\'Cut\',\'Copy\',\'Paste\',\'PasteText\',\'PasteFromWord\'],[\'Print\'],[\'Undo\',\'Redo\'],[\'Find\',\'Replace\'],[\'SelectAll\',\'RemoveFormat\'],[\'Bold\',\'Italic\',\'Underline\',\'Strike\'],[\'Subscript\',\'Superscript\'],[\'NumberedList\',\'BulletedList\'],[\'Outdent\',\'Indent\'],[\'JustifyLeft\',\'JustifyCenter\',\'JustifyRight\',\'JustifyBlock\'],[\'Link\',\'Unlink\',\'Anchor\'],[\'Table\',\'SpecialChar\'],[\'Styles\', \'Format\',\'FontSize\'],[\'TextColor\',\'BGColor\']];';
 					return $modulesCode;
 				} else {
 					return $modulesCode;
